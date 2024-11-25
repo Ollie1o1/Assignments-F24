@@ -4,7 +4,7 @@ int readFromFile (char fName [30],
     char playerNames [NUMBER_PLAYERS][MAX_LEN_PNAME],
     char countryNames [NUMBER_PLAYERS][MAX_LEN_CNAME],
     int data [NUMBER_PLAYERS][6]){
-    FILE *file = fopen(fName, "data.txt"); 
+    FILE *file = fopen(fName, "r"); 
     // Open the file for reading
     if (!file) {
     return -1; // File not found
@@ -34,7 +34,7 @@ int howManyFromCountryX (char playerNames [NUMBER_PLAYERS][MAX_LEN_PNAME],
         for(int i =0; i < NUMBER_PLAYERS; i++){
             if(strcmp(countryNames[i], whichCountry) == 0){
 
-                printf("%s, %s, (Rank %d)\n", playerNames[i], countryNames[i], data[i][0]);
+                printf("%s, %s, (Rank %d)\n", playerNames[i], whichCountry, data[i][0]);
 
                 count++;
             }
@@ -77,3 +77,65 @@ int oldOrYoung (int data [NUMBER_PLAYERS][6], int whichOne, int * howMany){
     
     return targetAge; // Return the target age
 }
+
+float avgNumberAcesRanksXToY (int data [NUMBER_PLAYERS][6], int lower, int upper){
+     if (lower > upper) {
+        return -1; // Return -1 if the range is invalid
+    }
+    
+    int sum = 0;
+    int count = 0;
+
+    // Loop through the range of ranks
+    for (int i = 0; i < NUMBER_PLAYERS; i++) {
+        if (data[i][0] >= lower && data[i][0] <= upper) {
+            sum += data[i][3]; // Access the 'aces' column (index 3)
+            count++;
+        }
+    }
+
+    return count == 0 ? 0 : (float)sum / count;
+}
+
+void printVerticalHistogramMatches (int data [NUMBER_PLAYERS][6]){
+    int matches[NUMBER_PLAYERS];
+    int minMatches = data[0][4];
+    int maxHeight = 0;
+
+    for(int i =0; i < NUMBER_PLAYERS; i++){
+        if(data[0][4] < minMatches){
+            minMatches = data[i][4];
+        }
+    }
+
+    for (int i = 0; i < NUMBER_PLAYERS; i++) {
+        matches[i] = data[i][4] - (minMatches - 1); // Scale values
+        if (matches[i] > maxHeight) {
+            maxHeight = matches[i];
+        }
+    }
+
+    // Step 3: Print the histogram vertically
+    for (int height = maxHeight; height > 0; height--) { // Start from max height
+        for (int rank = 0; rank < NUMBER_PLAYERS; rank++) {
+            if (matches[rank] >= height) {
+                printf("* ");
+            } else {
+                printf(" "); // Empty space for alignment
+            }
+        }
+        printf("\n"); // New line after each row
+    }
+
+    // Step 4: Print the x-axis (player ranks)
+    for (int rank = 1; rank <= NUMBER_PLAYERS; rank++) {
+        printf("%d ", rank);
+    }
+    printf("\n");
+}
+
+void rankTopN (char playerNames [NUMBER_PLAYERS][MAX_LEN_PNAME], char countryNames [NUMBER_PLAYERS][MAX_LEN_CNAME],
+               int data [NUMBER_PLAYERS][6],
+               int whichOne,
+               int n);
+    
