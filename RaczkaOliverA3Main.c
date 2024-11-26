@@ -13,8 +13,8 @@ int main (int argc, char * argv[]) {
         return -1;
     }
 
-    if (readFromFile(argv[1], playerNames, countryNames, data) == -1) {
-        printf("Failed to read data file: %s\n", argv[1]);
+    if (readFromFile("data.txt", playerNames, countryNames, data) == -1) {
+        printf("Failed to read data file: %s\n", argv[0]);
         return -1;
     }
     
@@ -60,12 +60,20 @@ int main (int argc, char * argv[]) {
                 }
                 break;
             }
-            case 4:
+            case 4:{
                 printVerticalHistogramMatches(data);
                 break;
-            case 5:
-                printf("This task is incomplete. Please implement `rankTopN`.\n");
+            }
+            case 5:{
+                int whichOne, n;
+                printf("Enter 1 for aces, 2 for double faults, 3 for service games won: ");
+                scanf("%d", &whichOne);
+                printf("How many players data do you want to see? ");
+                scanf("%d", &n);
+                // Call the rankTopN function
+                rankTopN(playerNames, countryNames, data, whichOne, n);
                 break;
+            }
             case 6:
                 printf("Exiting.\n");
                 break;
@@ -76,4 +84,3 @@ int main (int argc, char * argv[]) {
 
     return 0;
 }
-
