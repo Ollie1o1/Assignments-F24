@@ -101,9 +101,9 @@ void printVerticalHistogramMatches(int data[NUMBER_PLAYERS][6]) {
 
     // Calculate normalized matches and find max height
     for (int i = 0; i < NUMBER_PLAYERS; i++) {
-        matches[i] = data[i][2] - 21;  // Normalize by subtracting 21
+        matches[i] = data[i][2] - 21;
         if (matches[i] > maxHeight) {
-            maxHeight = matches[i];  // Find the maximum height for scaling
+            maxHeight = matches[i];
         }
     }
 
@@ -111,15 +111,16 @@ void printVerticalHistogramMatches(int data[NUMBER_PLAYERS][6]) {
     for (int i = 0; i < NUMBER_PLAYERS; i++) {
         printf("%2d ", data[i][2]);
     }
-    printf("\n");
+    printf("\n\n\n");
+    
 
-    // Print the histogram vertically
+    // Print the histogram
     for (int height = maxHeight; height > 0; height--) {
         for (int i = 0; i < NUMBER_PLAYERS; i++) {
             if (matches[i] >= height) {
-                printf(" * ");  // Print a star if the player's normalized matches >= height
+                printf(" * ");
             } else {
-                printf(" ");  // Print space if the player's normalized matches < height
+                printf("   ");
             }
         }
         printf("\n");
