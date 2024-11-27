@@ -33,30 +33,43 @@ int main (int argc, char * argv[]) {
         switch (choice) {
             case 1: {
                 char country[MAX_LEN_CNAME];
-                printf("Enter country name: ");
+                printf("Which Country?: ");
                 scanf("%s", country);
                 howManyFromCountryX(playerNames, countryNames, data, country);
                 break;
             }
             case 2: {
-                int whichOne, howMany;
-                printf("Enter 1 for oldest, 2 for youngest: ");
-                scanf("%d", &whichOne);
-                int age = oldOrYoung(data, whichOne, &howMany);
-                printf("Age: %d, Count: %d\n", age, howMany);
+                 char choice[10];
+                 int whichOne, howMany;
+
+                 printf("Type old for oldest or young for youngest: ");
+                 scanf("%s", choice);
+
+                 if (strcmp(choice, "old") == 0) {
+                    whichOne = 1;
+                 } else if (strcmp(choice, "young") == 0) {
+                    whichOne = 2;
+                 } else {
+                printf("Invalid choice. Please type 'old' or 'young'.\n");
+                break;
+            }
+
+            int age = oldOrYoung(data, whichOne, &howMany);
+            printf("\nThere is %d player(s) who is the %s and their age is %d\n",
+                    howMany, (whichOne == 1) ? "oldest" : "youngest", age);
                 break;
             }
             case 3: {
                 int lower, upper;
-                printf("Enter lower rank: ");
+                printf("Enter lower bound: ");
                 scanf("%d", &lower);
-                printf("Enter upper rank: ");
+                printf("Enter upper bound: ");
                 scanf("%d", &upper);
                 float avg = avgNumberAcesRanksXToY(data, lower, upper);
                 if (avg == -1) {
                     printf("Invalid range.\n");
                 } else {
-                    printf("Average aces: %.2f\n", avg);
+                    printf("Average number of aces for all players ranked 20 to 30 = %.2f\n", avg);
                 }
                 break;
             }
@@ -66,11 +79,12 @@ int main (int argc, char * argv[]) {
             }
             case 5:{
                 int whichOne, n;
-                printf("Enter 1 for aces, 2 for double faults, 3 for service games won: ");
+                printf("Enter 1 if you want to rank top N players based on the number of aces, 2 for number of double faults, 3 for number of service games won: ");
                 scanf("%d", &whichOne);
-                printf("How many players data do you want to see? ");
+                printf("How many players do you want to see: ");
                 scanf("%d", &n);
-                // Call the rankTopN function
+                
+                printf("\n");
                 rankTopN(playerNames, countryNames, data, whichOne, n);
                 break;
             }
