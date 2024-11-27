@@ -39,17 +39,17 @@ int main (int argc, char * argv[]) {
                 break;
             }
             case 2: {
-                 char choice[10];
-                 int whichOne, howMany;
+                char choice[10];
+                int whichOne, howMany;
 
-                 printf("Type old for oldest or young for youngest: ");
-                 scanf("%s", choice);
-
-                 if (strcmp(choice, "old") == 0) {
+                printf("Type old for oldest or young for youngest: ");
+                scanf("%s", choice);
+                    // make sure that they put old or young 
+                if (strcmp(choice, "old") == 0) {
                     whichOne = 1;
-                 } else if (strcmp(choice, "young") == 0) {
+                } else if (strcmp(choice, "young") == 0) {
                     whichOne = 2;
-                 } else {
+                } else {
                 printf("Invalid choice. Please type 'old' or 'young'.\n");
                 break;
             }
@@ -57,7 +57,7 @@ int main (int argc, char * argv[]) {
             int age = oldOrYoung(data, whichOne, &howMany);
             printf("\nThere is %d player(s) who is the %s and their age is %d\n",
                     howMany, (whichOne == 1) ? "oldest" : "youngest", age);
-                break;
+                    break;
             }
             case 3: {
                 int lower, upper;
@@ -67,14 +67,14 @@ int main (int argc, char * argv[]) {
                 scanf("%d", &upper);
                 float avg = avgNumberAcesRanksXToY(data, lower, upper);
                 if (avg == -1) {
-                    printf("Invalid range.\n");
+                     printf("Invalid range.\n");
                 } else {
-                    printf("Average number of aces for all players ranked 20 to 30 = %.2f\n", avg);
+                    printf("Average number of aces for all players ranked %d to %d = %.2f\n", lower, upper, avg);
                 }
                 break;
             }
             case 4:{
-                printVerticalHistogramMatches(data);
+                printVerticalHistogramMatches(data); //just the histogram
                 break;
             }
             case 5:{
@@ -83,13 +83,12 @@ int main (int argc, char * argv[]) {
                 scanf("%d", &whichOne);
                 printf("How many players do you want to see: ");
                 scanf("%d", &n);
-                
-                printf("\n");
+                //print out output
                 rankTopN(playerNames, countryNames, data, whichOne, n);
                 break;
             }
             case 6:
-                printf("Exiting.\n");
+                printf("Goodbye\n");
                 break;
             default:
                 printf("Invalid choice.\n");

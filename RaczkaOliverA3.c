@@ -49,7 +49,7 @@ int oldOrYoung (int data [NUMBER_PLAYERS][6], int whichOne, int * howMany){
     
     // Initialize targetAge based on the choice
     if (whichOne == 1) { 
-        targetAge = data[0][1]; // Assume the first player's age is the oldest
+        targetAge = data[0][1]; // Assume the first player's age is the oldes
         for (int i = 1; i < NUMBER_PLAYERS; i++) {
             if (data[i][1] > targetAge) {
                 targetAge = data[i][1]; // Update oldest age
@@ -77,21 +77,25 @@ int oldOrYoung (int data [NUMBER_PLAYERS][6], int whichOne, int * howMany){
 }
 
 float avgNumberAcesRanksXToY (int data [NUMBER_PLAYERS][6], int lower, int upper){
+     // Validate input range
      if (lower > upper) {
         return -1; // Return -1 if the range is invalid
     }
     
+    // Reset sum and count for each function call
     int sum = 0;
     int count = 0;
 
-    // Loop through the range of ranks
+    // Loop through all players
     for (int i = 0; i < NUMBER_PLAYERS; i++) {
+        // Check if player's rank is within the specified range
         if (data[i][0] >= lower && data[i][0] <= upper) {
-            sum += data[i][3]; // Access the 'aces' column (index 3)
+            sum += data[i][3]; // Add aces (index 3)
             count++;
         }
     }
 
+    // Return average, or 0 if no players in range
     return count == 0 ? 0 : (float)sum / count;
 }
 
@@ -109,7 +113,7 @@ void printVerticalHistogramMatches(int data[NUMBER_PLAYERS][6]) {
 
     // Print the original number of matches played
     for (int i = 0; i < NUMBER_PLAYERS; i++) {
-        printf("%2d ", data[i][2]);
+        printf("%2d ", matches[i]);
     }
     printf("\n\n\n");
     
@@ -137,7 +141,7 @@ void rankTopN (char playerNames [NUMBER_PLAYERS][MAX_LEN_PNAME], char countryNam
                int data [NUMBER_PLAYERS][6],
                int whichOne,
                int n){
-      // Array to store player indices for sorting
+      
     int indices[NUMBER_PLAYERS];
     for (int i = 0; i < NUMBER_PLAYERS; i++) {
         indices[i] = i;  // Initialize with player indices
@@ -148,7 +152,11 @@ void rankTopN (char playerNames [NUMBER_PLAYERS][MAX_LEN_PNAME], char countryNam
         for (int j = i + 1; j < NUMBER_PLAYERS; j++) {
             int value1 = data[indices[i]][whichOne + 2]; // Adjust index for criteria
             int value2 = data[indices[j]][whichOne + 2];
-            if (value1 < value2) { // Sort in descending order
+            int rank1 = data[indices[i]][0]; // Rank
+            int rank2 = data[indices[j]][0];
+            // this sorts the players for their rank if they have the same stat
+            if (value1 < value2 || 
+                (value1 == value2 && rank1 > rank2)) {
                 int temp = indices[i];
                 indices[i] = indices[j];
                 indices[j] = temp;
@@ -172,10 +180,11 @@ void rankTopN (char playerNames [NUMBER_PLAYERS][MAX_LEN_PNAME], char countryNam
             printf("Invalid criteria.\n");
             return;
     }
-
+    printf("\n");
     for (int i = 0; i < n && i < NUMBER_PLAYERS; i++) {
         int idx = indices[i];
-        printf("%s, %s, %d (Rank %d)\n",
+        
+        printf("%s, %s, %d, (Rank %d)\n",
                playerNames[idx],
                countryNames[idx],
                data[idx][whichOne + 2],  // Adjust index for criteria
